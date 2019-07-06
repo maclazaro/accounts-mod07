@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <flow name="vars-accountsMainFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/vars/vm" allowedMethods="GET" doc:name="/vars/vm"/>
+        <logger level="INFO" doc:name="Logger"/>
+        <set-payload value="Hello" doc:name="Set Payload"/>
+        <set-session-variable variableName="sessionVar" value="sessionVar1" doc:name="sessionVar1"/>
+        <set-variable variableName="flowVar" value="flowVar1" doc:name="flowVar1"/>
+        <set-property propertyName="propertyVar" value="property1" doc:name="property1"/>
+        <logger level="INFO" doc:name="Logger"/>
+        <logger message="#[&quot;\nflowVar1: &quot; + flowVars.flowVar + &quot;\nsessionVar1: &quot; + sessionVars.sessionVar + &quot;\npropertyFlowVar1: &quot; + flowVars.propertyFlowVar]" level="INFO" doc:name="Logger1"/>
+        <vm:outbound-endpoint exchange-pattern="request-response" path="varsVmQueue" connector-ref="varsVmConfiguration" doc:name="varsVmQueue"/>
+    </flow>
+    <flow name="vars-accountsFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/api/vars/accounts" allowedMethods="GET" doc:name="/api/vars/accounts"/>
+        <logger level="INFO" doc:name="Logger"/>
+        <logger message="#[&quot;\nflowVar4: &quot; + flowVars.flowVar + &quot;\nsessionVar4: &quot; + sessionVars.sessionVar + &quot;\npropertyFlowVar4: &quot; + flowVars.propertyFlowVar]" level="INFO" doc:name="Logger4"/>
+        <set-payload value="Good bye" doc:name="Set Payload"/>
+    </flow>
+</mule>

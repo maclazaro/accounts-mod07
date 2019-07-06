@@ -14,9 +14,6 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
 http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
-	
-    <db:mysql-config name="MySQL_Configuration" host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" doc:name="MySQL Configuration"/>
-    <context:property-placeholder location="${env}.properties"/>
     <flow name="getAllAccountsFlow">
         <db:select config-ref="MySQL_Configuration" doc:name="Database">
             <db:parameterized-query><![CDATA[SELECT * FROM flights_customers WHERE accountType = #[message.inboundProperties.'http.query.params'.type]]]></db:parameterized-query>

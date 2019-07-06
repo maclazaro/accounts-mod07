@@ -7,12 +7,9 @@
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-
 	<http:listener-config name="HTTP_TEST_Configuration" host="0.0.0.0" port="9091" doc:name="HTTP_TEST_Configuration"/>
-	<http:request-config name="HTTP_Request_Configuration" host="0.0.0.0" port="${http.port}" basePath="/api" doc:name="HTTP Request Configuration"/>
-    
     <flow name="testGETALLAccounts">
-        <http:listener config-ref="HTTP_TEST_Configuration" path="/testGetALLAccounts" allowedMethods="GET" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/testGetALLAccounts" allowedMethods="GET" doc:name="HTTP"/>
         <http:request config-ref="HTTP_Request_Configuration" path="/accounts" method="GET" doc:name="HTTP">
             <http:request-builder>
                 <http:query-param paramName="type" value="${test.type}"/>
@@ -21,7 +18,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         </http:request>
     </flow>
     <flow name="testPOSTAccounts">
-        <http:listener config-ref="HTTP_TEST_Configuration" path="/testPostAccounts" allowedMethods="GET" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/testPostAccounts" allowedMethods="GET" doc:name="HTTP"/>
         <set-payload value="[
   {
     &quot;firstName&quot;: &quot;John&quot;,
@@ -41,7 +38,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
         </http:request>
     </flow>
     <flow name="testGETOneAccount">
-        <http:listener config-ref="HTTP_TEST_Configuration" path="/testGetOneAccount" allowedMethods="GET" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/testGetOneAccount" allowedMethods="GET" doc:name="HTTP"/>
         <http:request config-ref="HTTP_Request_Configuration" path="/accounts/{id}" method="GET" doc:name="HTTP">
             <http:request-builder>
                 <http:uri-param paramName="id" value="${test.id}"/>
@@ -51,7 +48,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     </flow>
     
     <flow name="testPUTOneAccount">
-        <http:listener config-ref="HTTP_TEST_Configuration" path="/testPutOneAccount" allowedMethods="GET" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/testPutOneAccount" allowedMethods="GET" doc:name="HTTP"/>
          <set-payload value="
   {
     &quot;firstName&quot;: &quot;John&quot;,
@@ -72,7 +69,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     </flow>
        
     <flow name="testPATCHOneAccount">
-        <http:listener config-ref="HTTP_TEST_Configuration" path="/testPatchOneAccount" allowedMethods="GET" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/testPatchOneAccount" allowedMethods="GET" doc:name="HTTP"/>
          <set-payload value="
   {
     &quot;firstName&quot;: &quot;John&quot;,
@@ -93,7 +90,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
     </flow>
     
     <flow name="testDELETEOneAccount">
-        <http:listener config-ref="HTTP_TEST_Configuration" path="/testDeleteOneAccount" allowedMethods="GET" doc:name="HTTP"/>
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/testDeleteOneAccount" allowedMethods="GET" doc:name="HTTP"/>
         <http:request config-ref="HTTP_Request_Configuration" path="/accounts/{id}" method="DELETE" doc:name="HTTP">
             <http:request-builder>
                 <http:uri-param paramName="id" value="${test.id}"/>
